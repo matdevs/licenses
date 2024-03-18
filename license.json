@@ -1,5 +1,55 @@
+IPlist =
 {
-  "Lorenz Roleplay":{
-  "95.10.202.221":"matsdev"
-  }
+  {"Lorenz Roleplay", "95.10.202.221"}
+}
+setElementData(root, "protect", 1)
+setElementData(root, "saas", 0)
+setElementData(root, "wpackv", 1)
+oneat = nil
+function Magic(res)
+    if getElementData(root, "koruma") ~= 1 then 	
+	setElementData(root, "protect", nil)
+	shutdown("Lisanssız paket - West Scripting")
+    return end
+    name = getServerConfigSetting("servername")
+    fetchRemote("https://api.my-ip.io/ip", function(ip)
+        --print("IP Kontrol ediliyor....")
+        serverip = ip 
+    if tostring(ip) then 
+            for i, data in ipairs(IPlist) do
+                if data[2] == ip then 
+                data1 = data[1]
+                data2 = data[2]
+                end
+            end
+	if oneat then return end
+       		 if data1 == keygetir() then 
+            		 setElementData(root, "saas", 1)
+           		 setElementData(root, "protect", 1)
+			 setElementData(root, "wpackv", 1)
+           		 print ("West Scripting orjinal paket kullandiginiz icin tesekkurler.")
+           		 sendMessage("paketlog"," adlı paketi kullanan server ip :   "  ..ip.." Lisans:  **Var!  ** Server Name : " ..name.. " **Paket Aktif!**" )
+           		 oneat = true
+     		 else 
+          		  shutdown ("West Scripting çalıntı paket tespit edildi iyi ucuslar!")
+           		 print("West Scripting çalıntı paket tespit edildi iyi ucuslar")
+           		 setElementData(root, "protect", nil)
+			 setElementData(root, "wpackv", 0)
+			 setElementData(root, "saas", 0)
+          		  sendMessage("paketlog"," adlı paketi kullanan server ip :   "  ..ip.." Lisans:  **Yok!  ** Server Name : " ..name.. " **Sunucu Kapatıldı!**" )
+        	  end
+    else 
+         print("Sistem kendini güncelliyor 2 dakika sonra restart atın!")
+    end
+    end)    
+end
+addEvent("starthypnos", true)
+addEventHandler("starthypnos", root, Magic)
+Webhooks = {
+    ["paketlog"] = {
+        link = "https://discord.com/api/webhooks/1219403566159106118/2Nv3aAFK9m-hKYtBvphNk8QF9UBDh7MbOfQ29KS80JIBmkum9MIBdDHkJzT_z3a4LVDy",
+        avatar = "",
+        username = "LİSANS"
+    }
+    
 }
